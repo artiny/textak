@@ -1,0 +1,198 @@
+***********************************
+dsi *******************************
+***********************************
+
+% vyžaduje špecializovanejšie hardvér. - pre video
+
+.............................................................................................................
+
+***********************************
+USB CONFIG ************************
+***********************************
+	
+% 1.Pripojit USB
+% 2. sudo fdisk -l  
+% Poznaète si názov zariadenia:
+/dev/sdXN
+(Ak je k poèítaèu Pi pripojené len jediné zariadenie, bude oznaèené ako / dev / sda1.)
+% 3. nastavi prípojný bod. Tento bod vytvoríte príkazom
+sudo mkdir /media/externí_jednotka
+% 4.Ak ich chcete sprístupni všetkým používate¾om, zadajte nasledujúci reazec na jediný riadok:
+sudo chgrp -R users /media/externí_jednotka &&  ->
+ sudo chmod -R g+w /media/externí_jednotka
+% 5. Pripojte úložné zariadenie pre USB pomocou príkazu
+sudo mount /dev/sdXN /media/externí_jednotka -o=rw
+(Tým získate prístup k zariadeniu a jeho obsahu.)
+
+.............................................................................................................
+
+***************************************
+APT************************************
+***************************************
+
+++++++++++++++++++++++++++++
++nainstalovat novy software+
+++++++++++++++++++++++++++++
+% 1. sudo apt-get update
+
+
++++++++++++++++++
++SEARCH softwaru+
++++++++++++++++++
+apt-cache search game
+
+(apt-cache search game | less  ; a Q vystup)
+
+++++++++++++++++++++
++Instalace softwaru+
+++++++++++++++++++++
+
+%napr.: 
+sudo apt-get install nethack-console
+
+
+++++++++++++++++++++
++ Odinstalovanie SW+
+++++++++++++++++++++
+%napr.:
+sudo apt-get remove thrust
+
+%Úèinnejšie alternatívou príkazu removal je príkaz purge.príkaz purge odoberie celú inštaláciu.
+%(aj konfiguracné subory)
+%napr.:
+sudo apt-get purge thrust
+
+
+++++++++++++++++++++++
+++ Upgrade softwaru ++
+++++++++++++++++++++++
+sudo apt-get update
+sudo apt-get install thrust
+
+
+.............................................................................................................
+
+******************************************************
+Vytvorenie bitovej kópie v Linuxe ********************
+******************************************************
+
+% 1. zobrazi zoznam diskov
+sudo fdisk -l
+% Vyh¾adajte kartu SD pod¾a jej ve¾kosti a poznaète si adresu zariadenia 
+ / dev / sdX   alebo  /dev/mmcblkX
+% 2. naèítate obsah karty SD a zapíšete ho do súboru s názvom doèasná_bitová_kopie.img
+ sudo dd of=doèasná_bitová_kopie.img if=/dev/sdX bs=2M
+
+
+
+
+.............................................................................................................
+
+********************************
+Python *************************
+********************************
+
+#!/usr/bin/env python
+
+print "Ahoj Raspberry!"
+
+%spustanie program:
+0. start terminal
+1. prejst do adresaru cd
+2. python ahoj.py
+
+chmod +x ahoj.py
+./ahoj.py
+(sudo cp ahoj.py /usr/local/bin/)
+
+uzivJmeno = raw_input("Zadejte sve jmeno. ")
+
+
+.............................................................................................................
+
+***********************************
+boot config file open *************
+***********************************
+
+sudo nano /boot/config.txt
+
+% alebo
+% ezt haszsnaltak UART part 2 videoban,valami a terminallal 
+sudo nano /boot/cmdline.txt      
+
+
+.............................................................................................................
+
+***********************************
+minicom****************************
+***********************************
+
+% Raspberry Pi and the Serial Port 
+
+
+.............................................................................................................
+
+***********************************
+konfiguracia***********************
+***********************************
+
+sudo raspi-config
+
+.............................................................................................................
+
+***********************************
+ i2c ******************************
+***********************************
+
+sudo nano /etc/modules
+%add row:
+i2c-bcm2708
+i2c-dev
+
+%and something install:
+smbus, i2c-tools
+
+%see what is in blacklist:
+sudo nano raspi-blacklist.conf
+
+% i2c detect devices - bus, adress [early RPI have 0 not 1]   
+sudo i2cdetect -y 1
+
+% valamire használták (hozza adtak a clockot,es a i2detect szamat):
+sudo nano /etc/rc.local
+echo ds3231 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+hwclock -s
+sudo hwclock -r
+ 
+
+.............................................................................................................
+
+***********************************
+port ******************************
+***********************************
+
+ls /dev/tty*
+
+
+.............................................................................................................
+
+***********************************
+WiringPi **************************
+***********************************
+cd /wiringPi
+% pozriet verzia
+gpio -v
+% test GPIO
+gpio readall
+% install phyton libarary or nieco take
+git clone --recursive https://github.com/WiringPi/WiringPi-Python.git
+cd WiringPi-Python
+sudo apt-get install python-dev python-setuptools swig
+cd WiringPi
+sudo ./build
+cd ..
+swig2.0 -python wiringpi.i
+sudo python setup.py install
+sudo python3 setup.py install
+
+

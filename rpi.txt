@@ -1,0 +1,85 @@
+lxtask
+>> open task manager in rpi
+
+*******************************************************************************************************************************
+"E:\RASPBERRYPI\-BOOK\![ Apress ]\Learn Electronics with Raspberry Pi\Learn Electronics with Raspberry Pi.pdf"
+
++ The output of the GPIO is only able to provide a current of up to 16mA
++ Giving an input that is above 3.3V, or drawing too much current from an output, can permanently damage the Raspberry Pi.  
++ The maximum current that can be drawn from an individual Raspberry Pi GPIO port is  around 16mA. 
+
++ In September 2012,  the revision 2 boards were released and they changed some of the pin allocations. 
+
++ To check which version of Raspberry Pi you have, you can run this command:
+cat /proc/cpuinfo 
+The revision numbers are shown as hexadecimal values. These are 0002 and 0003 for Raspberry 
+Pi model B revision 1; 0004 to 000f for Raspberry Pi model A and B; 0010, 0012, and 0013 for A+ and B+; and 
+a01041 and upward for Raspberry Pi 2. 
+
++ The pull-up resistors can be enabled using the broadcast message
+config<GPIOport>inpullupand 
+inserting the appropriate GPIO port number.  
+
++  Pull-up resistors   are used to create a high signal where the input value is unknown which is the case if 
+there is no signal from a sensor. For example in the case of a simple switch then we can detect when 
+the switch is pressed as that gives a clear signal, but when it is not pressed then electrical noise can 
+trick the circuit into thinking it is pressed when it is not. When the switch is not pressed then the pull-up 
+resistor allows a small current to flow through it which gives a positive voltage (logic high). When the 
+switch is pressed then the bottom of the pull-up resistor is connected through the switch to ground. This 
+overrides the high signal by effectively connecting the input to ground.  
+
+
+
+%% Transistorokra pelda,bekotes,szamolas
+
+%% Voltage divider circuit 
+
+%% datasheet
+
+*******************************************************************************************************************************
+"Make - Getting Started with Sensors - Measure the World with Electronics, Arduino, and Raspberry Pi [StarDiwa]/Make - Getting Started with Sensors.pdf"
+
+
++	Sensors are transducers. So if someone asks you how a sensor exerts control over a circuit’s simply reply, “Transduction!”
+ transductio		 →  	transdukcia, prevod, prevedenie, priebeh 
+ 
+ +	typically black is used for wires connected directly to a ground terminal (0 V, GND) and  red  is  used  for  direct  connections  to  a  positive  terminal  (+5  V). 
+ 
+ +	The connection using the two resistors is called avoltage divider.
+ 
+ +	Internal pull-up resistor; enable it with pinMode(pin, INPUT) fol- lowed by digitalWrite(pin, HIGH) or just pinMode(pin, INPUT_PULLUP)
+ 
+ +	There is a built-in pull-up resistor on pins GPIO 2 and GPIO 3. The internal pull-up connects the pin to +3.3 V through a 1800 Ŷ (1.8 k Ŷ ) resistor.
+ The pull-up resistor is always connected on these pins. When the button is not pressed, the pull-up resistor pulls GPIO 3 to HIGH, +3.3 V
+ 
+ +	50% * 5V = 2.5 V 
+This is well above the minimum level for a HIGH signal, which is about half of
+the nominal 3.3 V HIGH level, 1.65 V. Because 1.65 V < 2.5 V, Raspberry con-
+siders 2.5 V HIGH.
+
++	$ echo "Hello, world" | tee hello.txt
+Hello, world
+ 
+ %%	potenciometer
+ 
+ %% adding SPI 
+ 
+ *********************************************************************************************************************************
+ Make:sensors
+ 
+ +	Because Arduino  pulseIn() returns the pulse length in microseconds (1 μs = 0.001 ms = 1e-6 s), the formula could be modified to use microseconds
+ A = 8 * ( tHIGH/(10*1000) - 0.5)
+ 1 μs = 0.001 ms = 0.000001 s = 1e-6 s
+ The unit of A is then g, which equals 9.81 m/s^2
+ 
+ +	Accelerometer and Gyro Together
+- When an accelerometer is not moving, it detects gravity and can tell where down is
+- A gyroscope can tell the orientation reliably, even if you spin it around and around. A gyroscope ignores gravity, though.
+ 
++	 “MPU 6050 data sheet” and “MPU 6050 register map.”
+Swap the two bytes in parameter value. MPU 6050 isbig endian. Arduino islittle endianlike most processors. 
+The endianness must be converted between the platforms. SeeEndianness—Typically on the Small Sidefor more details
+
+ %% Acceleration vs. Angular Velocity
+ 
+ %% MPU 6050

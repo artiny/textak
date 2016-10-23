@@ -1,0 +1,19 @@
+********************************************************
+compile file with gcc **********************************
+********************************************************
+
+gcc hellopi.c -o hellopi
+./hellopi
+
+**********************************************************
+using Makefile with gcc **********************************
+**********************************************************
+
+Example make Code for hellopi.c
+
+1. #in makefiles, a hash indicates a comment instead
+2. all: hellopi
+3. hellopi: hellopi.c
+4. 		gcc -o hellopi hellopi.c
+
+
